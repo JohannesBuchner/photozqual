@@ -64,10 +64,7 @@ Example data is provided in the repository.
 
 	with optimal systematic errors:
 		systematic z error: sigma_NMAD = 0.024
-		systematic outlier fraction: eta = 0.019
-
-
-	plotting...
+		systematic outlier fraction: eta = 0.016
 
 
 4. Gawk at the produced numbers above, in particular the last four. Compare these when running against the pdz inputs of other methods.

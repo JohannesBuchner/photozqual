@@ -46,8 +46,8 @@ def weighted_median(y, p):
 		if s >= 0.5: 
 			return i[0]
 def normalize(x, y):
-	binwidth = x[1] - x[0]
-	total = (y * binwidth).sum()
+	binwidth = x[1:] - x[:-1]
+	total = (y[:-1] * binwidth).sum()
 	assert total >= 0, (total, x, y)
 	return y / total
 data = {}
