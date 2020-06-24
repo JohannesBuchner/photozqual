@@ -29,9 +29,9 @@ import scipy.optimize
 import matplotlib.pyplot as plt
 
 def get_zphot(id):
-	zphot = numpy.loadtxt('pdz/%s' % id)
-	zphot[:,1] /= zphot[:,1].sum()
-	return zphot
+	zphot1 = numpy.loadtxt('pdz/%s' % id)
+	zphot1[:,1] /= zphot1[:,1].sum()
+	return zphot1
 def get_zspec(id):
 	return float(numpy.loadtxt('specz/%s' % id))
 def has_zspec(id):
@@ -54,14 +54,14 @@ data = {}
 
 def create_pdz(zphot, w, woutliers):
 	zphot_best = zphot[:,0][zphot[:,1].argmax()]
-	zphot2 = zphot[:,1]
-	zphot2 = scipy.signal.convolve(zphot2, w, 'same')
+	zphot2a = zphot[:,1]
+	zphot2 = scipy.signal.convolve(zphot2a, w, 'same')
 	assert zphot2.sum() > 0, w
 	zphot2 /= zphot2.sum()
 	#zphot2 = zphot2**d # d disabled
 	zphot3 = normalize(zphot[:,0], zphot2)
 	zphot3 += woutliers
-	zphot3[0] = 0.
+	#zphot3[0,0] = 0.
 	zphot3[-1] = 0.
 	zphot4 = normalize(zphot[:,0], zphot3)
 	return zphot_best, zphot2, zphot3, zphot4
@@ -251,6 +251,8 @@ print()
 x0 = [r['sigma_NMAD']*100, numpy.log10(r['outlier_fraction'])+9]
 cons = [lambda x: x[0], lambda x: x[0]]
 
+assert numpy.isfinite(optfunc_smooth(x0))
+
 print('Finding systematic errors ...')
 x1_smooth = scipy.optimize.fmin_cobyla(optfunc_smooth, x0=x0, cons=cons, rhobeg=[0.1,0.1], disp=0)
 r_smooth = calc_stats(*x1_smooth)
@@ -270,4 +272,3 @@ print()
 # plot out smoothened pdzs
 
 calc_stats(*x1_smooth, plot_corr=True, write_individual=True)
-
