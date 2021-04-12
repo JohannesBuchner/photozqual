@@ -2,7 +2,7 @@
 
 mkdir -p specz pdz
 
-for f in SPEC_OUT/*; do
+for f in SPEC_OUT/*.spec; do
 	grep -v '^#' "$f"|head -n1|while read ID zspec zphot
 	do
 		sed s,0\.212200-313,0.212200E-313,g "$f" | grep '^  0.00000  ' -A 10000000 | grep '^  '|head -n -2 > pdz/$ID

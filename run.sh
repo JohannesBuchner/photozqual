@@ -1,11 +1,11 @@
 
+if [[ "$1" == "run" ]]
+then
+
 if [ ! -e SPEC_OUT ]; then
 	echo "ERROR: lephare output directory SPEC_OUT does not exist"
 	exit 1
 fi
-
-if [[ "$1" == "run" ]]
-then
 
 bash convert_lephare_files.sh &&
 python3 photozquality.py $(ls pdz) &&
